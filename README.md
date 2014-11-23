@@ -1,4 +1,4 @@
-node_redis_listener
-===================
+node_consumer
+=============
 
-Redis Websocket Listener
+Kafka node consumer
