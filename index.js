@@ -71,7 +71,7 @@ commander
 if(commander.id === undefined) commander.id = ((Math.random() + 10000000) % 10000000);
 if(commander.redisHost === undefined) commander.redisHost = 'redis';
 if(commander.redisPort === undefined) commander.redisPort = 6379;
-if(commander.expressPort === undefined) commander.redisPort = 3000;
+if(commander.expressPort === undefined) commander.expressPort = 3000;
 
 var redis = require('redis'),
   client = redis.createClient( commander.redisPort, commander.redisHost);
