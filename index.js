@@ -65,11 +65,13 @@ commander
   .option('-id, --id [value]', 'ID for this producer')
   .option('-rh, --redis-host [value]', 'Redis host to cionnect to.')
   .option('-rp, --redis-port [n]', 'Redis port to cionnect to.', parseInt)
+  .option('-ep, --express-port [n]', 'Express port to cionnect to.', parseInt)
   .parse(process.argv);
 
 if(commander.id === undefined) commander.id = ((Math.random() + 10000000) % 10000000);
 if(commander.redisHost === undefined) commander.redisHost = 'redis';
 if(commander.redisPort === undefined) commander.redisPort = 6379;
+if(commander.expressPort === undefined) commander.redisPort = 3000;
 
 var redis = require('redis'),
   client = redis.createClient( commander.redisPort, commander.redisHost);
