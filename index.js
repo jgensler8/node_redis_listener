@@ -6,11 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var commander = require('commander');
 var http = require('http');
-var server = http.createServer();
 //var routes = require('./routes/index');
 //var users = require('./routes/users');
 
-var app = express(http);
+var app = express();
+var server = http.Server(app);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -58,7 +58,7 @@ app.use(function(err, req, res, next) {
     });
 });
 
-module.exports = app;
+//module.exports = app;
 
 commander
   .version('0.0.1')
@@ -73,8 +73,15 @@ if(commander.redisHost === undefined) commander.redisHost = 'redis';
 if(commander.redisPort === undefined) commander.redisPort = 6379;
 if(commander.expressPort === undefined) commander.expressPort = 3000;
 
+/*
 var redis = require('redis'),
   client = redis.createClient( commander.redisPort, commander.redisHost);
+*/
+
+server.listen(commander.expressPort, function()
+{
+ console.log("listening on port ", commander.expressPort);
+});
 
 var io = require('socket.io')(server);
 io.on('connection', function(socket){
@@ -86,5 +93,3 @@ io.on('connection', function(socket){
 
   });
 });
-
-server.listen(commander.expressPort);

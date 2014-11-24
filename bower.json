@@ -1,0 +1,28 @@
+{
+  "name": "node_redis_listener",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jgensler8/node_redis_listener",
+  "authors": [
+    "Jeffrey Gensler <jgensler8@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.3",
+    "angular-socket-io": "~0.6.1",
+    "angular-ui-router": "~0.2.13",
+    "d3": "~3.4.13",
+    "bootstrap": "~3.3.1",
+    "angular-bootstrap": "~0.12.0"
+  },
+  "resolutions": {
+    "angular": ">= 1.0.8"
+  }
+}
