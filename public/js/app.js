@@ -17,8 +17,9 @@ app.controller('GraphsCtrl', ['$scope', 'graphSocket', function($scope, graphSoc
 
   graphSocket.on('fridges', function(data)
   {
-    $scope.fridges = data;
-    console.log(data);
+    //$scope.fridges = data;
+    console.log("Parsed:", JSON.parse(data));
+    console.log("Raw:", data);
     // push a new data point onto the back
     /*
     var sum = 0;
