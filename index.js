@@ -96,7 +96,7 @@ io.on('connection', function(socket){
 
     client.hgetall('fridges', function(err, data)
     {
-	    socket.emit('fridges', JSON.stringify(data));
+	    socket.emit('fridges', data);
     });
 
   }, 500);
