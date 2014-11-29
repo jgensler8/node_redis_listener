@@ -93,9 +93,11 @@ io.on('connection', function(socket){
   //send the whole redis payload
   setInterval( function()
   {
+
     client.hgetall('fridges', function(err, data)
     {
 	    socket.emit('fridges', data);
     });
+
   }, 500);
 });
