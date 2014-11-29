@@ -18,13 +18,16 @@ app.controller('GraphsCtrl', ['$scope', 'graphSocket', function($scope, graphSoc
   graphSocket.on('fridges', function(data)
   {
     $scope.fridges = data;
-    // push a new data point onto the back  
+    console.log(data);
+    // push a new data point onto the back
+    /*
     var sum = 0;
     for( fridge in data)
     {
       sum += data[fridge].door;
     }
     $scope.sum = sum;
+    */
   });
 
 }]);
