@@ -11,21 +11,16 @@ angular
 {
   return {
     restrict: 'EA',
+    scope: {
+      newval: '='
+    },
     link: function(scope, element, attrs) {
-     // Browser onresize event
+      // Browser onresize event
       window.onresize = function() {
             scope.$apply();
       };
 
-      // hard-code data
-      scope.data = [
-            {name: "Greg", score: 98},
-            {name: "Ari", score: 96},
-            {name: 'Q', score: 75},
-            {name: "Loser", score: 48}
-      ];
-
-          // Watch for resize event
+      // Watch for resize event
       scope.$watch(function() {
             return angular.element($window)[0].innerWidth;
       }, function() {
@@ -33,28 +28,24 @@ angular
       });
 
       scope.render = function(data) {
-        // our custom d3 code
-        console.log("render");
+       var n = 40,
+           data = d3.range(n).map(function(){return 0});
 
-var n = 40,
-    random = d3.random.normal(0, .2),
-    data = d3.range(n).map(random);
+       var margin = {top: 20, right: 20, bottom: 20, left: 40},
+           width = 960 - margin.left - margin.right,
+           height = 500 - margin.top - margin.bottom;
 
-var margin = {top: 20, right: 20, bottom: 20, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+       var x = d3.scale.linear()
+                 .domain([0, n - 1])
+                 .range([0, width]);
 
-var x = d3.scale.linear()
-    .domain([0, n - 1])
-    .range([0, width]);
+       var y = d3.scale.linear()
+                 .domain([0, 50])
+                 .range([height, 0]);
 
-var y = d3.scale.linear()
-    .domain([-1, 1])
-    .range([height, 0]);
-
-var line = d3.svg.line()
-    .x(function(d, i) { return x(i); })
-    .y(function(d, i) { return y(d); });
+       var line = d3.svg.line()
+                    .x(function(d, i) { return x(i); })
+                    .y(function(d, i) { return y(d); });
 
       var svg = d3.select(element[0])
                   .append("svg")
@@ -64,52 +55,46 @@ var line = d3.svg.line()
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-svg.append("defs").append("clipPath")
-    .attr("id", "clip")
-  .append("rect")
-    .attr("width", width)
-    .attr("height", height);
+      svg.append("defs").append("clipPath")
+         .attr("id", "clip")
+      .append("rect")
+         .attr("width", width)
+         .attr("height", height);
 
-svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + y(0) + ")")
-    .call(d3.svg.axis().scale(x).orient("bottom"));
+      svg.append("g")
+         .attr("class", "x axis")
+         .attr("transform", "translate(0," + y(0) + ")")
+      .call(d3.svg.axis().scale(x).orient("bottom"));
 
-svg.append("g")
-    .attr("class", "y axis")
-    .call(d3.svg.axis().scale(y).orient("left"));
+      svg.append("g")
+         .attr("class", "y axis")
+      .call(d3.svg.axis().scale(y).orient("left"));
 
-var path = svg.append("g")
-    .attr("clip-path", "url(#clip)")
-  .append("path")
-    .datum(data)
-    .attr("class", "line")
-    .attr("d", line);
+      var path = svg.append("g")
+         .attr("clip-path", "url(#clip)")
+      .append("path")
+         .datum(data)
+         .attr("class", "line")
+         .attr("d", line);
 
-tick();
+      tick();
 
-function tick() {
+      function tick() {
+        data.push(scope.newval);
 
-  // push a new data point onto the back
-  data.push(random());
+        // redraw the line, and slide it to the left
+        path
+          .attr("d", line)
+          .attr("transform", null)
+        .transition()
+          .duration(500)
+          .ease("linear")
+          .attr("transform", "translate(" + x(-1) + ",0)")
+          .each("end", tick);
 
-  // redraw the line, and slide it to the left
-  path
-      .attr("d", line)
-      .attr("transform", null)
-    .transition()
-      .duration(500)
-      .ease("linear")
-      .attr("transform", "translate(" + x(-1) + ",0)")
-      .each("end", tick);
-
-  // pop the old data point off the front
-  data.shift();
-
-}
-
-
-
+        // pop the old data point off the front
+        data.shift();
+      }
 
       } 
     }}

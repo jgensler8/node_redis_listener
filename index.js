@@ -73,10 +73,8 @@ if(commander.redisHost === undefined) commander.redisHost = 'redis';
 if(commander.redisPort === undefined) commander.redisPort = 6379;
 if(commander.expressPort === undefined) commander.expressPort = 3000;
 
-/*
 var redis = require('redis'),
   client = redis.createClient( commander.redisPort, commander.redisHost);
-*/
 
 server.listen(commander.expressPort, function()
 {
@@ -85,11 +83,19 @@ server.listen(commander.expressPort, function()
 
 var io = require('socket.io')(server);
 io.on('connection', function(socket){
-  //send the whole redis payload
-  socket.on('event', function(data){
-
+  socket.on('fridge', function(data){
+    //
   });
   socket.on('disconnect', function(){
-
+    //nothing
   });
+
+  //send the whole redis payload
+  setInterval( function()
+  {
+    client.hgetall('fridges', function(err, data)
+    {
+	    socket.emit('fridges', data);
+    });
+  }, 500);
 });

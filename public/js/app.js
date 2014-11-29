@@ -12,11 +12,20 @@ app.controller('HomeCtrl', ['$scope', function($scope){
 }]);
 
 app.controller('GraphsCtrl', ['$scope', 'graphSocket', function($scope, graphSocket){
+  $scope.sum = 0;
+  $scope.fridges = {};
 
-$scope.run = function()
-{
-console.log("Running!");
-}
+  graphSocket.on('fridges', function(data)
+  {
+    $scope.fridges = data;
+    // push a new data point onto the back  
+    var sum = 0;
+    for( fridge in data)
+    {
+      sum += data[fridge].door;
+    }
+    $scope.sum = sum;
+  });
 
 }]);
 
