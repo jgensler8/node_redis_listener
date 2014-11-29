@@ -12,9 +12,9 @@
      </tr>
      <tr ng-repeat="fridge in fridges">
        <td> {{ fridge.id }} </td>
+       <td ng-show="fridge.o===1">Open</td>
+       <td ng-hide="fridge.o===1">Closed</td>
        <td> {{ fridge.t }}</td>
-       <td ng-show="fridge.o==1">Open</td>
-       <td ng-hide="fridge.o==1">Closed</td>
        <td> {{ fridge.d }} </td>
      </tr>
    </table>
