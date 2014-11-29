@@ -7,10 +7,12 @@
      <tr>
        <td>ID</td>
        <td>Door Open</td>
+       <td>Temp</td>
        <td>Dispensers</td>
      </tr>
      <tr ng-repeat="fridge in fridges">
        <td> {{ fridge.id }} </td>
+       <td> {{ fridge.t }}</td>
        <td ng-show="fridge.o==1">Open</td>
        <td ng-hide="fridge.o==1">Closed</td>
        <td> {{ fridge.d }} </td>
