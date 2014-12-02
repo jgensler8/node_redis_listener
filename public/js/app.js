@@ -18,17 +18,21 @@ app.controller('GraphsCtrl', ['$scope', 'graphSocket', function($scope, graphSoc
   graphSocket.on('fridges', function(data)
   {
     $scope.fridges = [];
-    $scope.fridges.push( JSON.parse(data.undefined) );
+    //$scope.fridges.push( JSON.parse(data) );
     
     //console.log("Parsed:", JSON.parse(data.undefined));
     //console.log("Raw:", data);
     // push a new data point onto the back
+    
     var sum = 0;
-    for( fridge in $scope.fridges)
+    for(var fridge in data)
     {
-      sum += $scope.fridges[fridge].o;
+      var parsed = JSON.parse(data[fridge]);
+      $scope.fridges.push(parsed)
+      sum += parsed.o;
     }
     $scope.sum = sum;
+    console.log(sum);
   });
 
 }]);
